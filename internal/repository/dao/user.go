@@ -24,17 +24,24 @@ type User struct {
 	UpdatedAt int64
 }
 
-type UserDao struct {
+type UserDao interface {
+	Insert(ctx context.Context, user User) error
+	FindByEmail(ctx context.Context, email string) (User, error)
+	FindById(ctx context.Context, id int64) (User, error)
+	FindByPhone(ctx context.Context, phone string) (User, error)
+}
+
+type gormUserDao struct {
 	db *gorm.DB
 }
 
-func NewUserDao(db *gorm.DB) *UserDao {
-	return &UserDao{
+func NewUserDao(db *gorm.DB) UserDao {
+	return &gormUserDao{
 		db: db,
 	}
 }
 
-func (dao *UserDao) Insert(ctx context.Context, user User) error {
+func (dao *gormUserDao) Insert(ctx context.Context, user User) error {
 	now := time.Now().UnixMilli()
 	user.CreatedAt = now
 	user.UpdatedAt = now
@@ -49,7 +56,7 @@ func (dao *UserDao) Insert(ctx context.Context, user User) error {
 	return err
 }
 
-func (dao *UserDao) FindByEmail(ctx context.Context, email string) (User, error) {
+func (dao *gormUserDao) FindByEmail(ctx context.Context, email string) (User, error) {
 	var user User
 	err := dao.db.WithContext(ctx).Where("email=?", email).First(&user).Error
 	if err == gorm.ErrRecordNotFound {
@@ -58,7 +65,7 @@ func (dao *UserDao) FindByEmail(ctx context.Context, email string) (User, error)
 	return user, err
 }
 
-func (dao *UserDao) FindById(ctx context.Context, id int64) (User, error) {
+func (dao *gormUserDao) FindById(ctx context.Context, id int64) (User, error) {
 	var user User
 	err := dao.db.WithContext(ctx).Where("id=?", id).First(&user).Error
 	if err == gorm.ErrRecordNotFound {
@@ -67,7 +74,7 @@ func (dao *UserDao) FindById(ctx context.Context, id int64) (User, error) {
 	return user, err
 }
 
-func (dao *UserDao) FindByPhone(ctx context.Context, phone string) (User, error) {
+func (dao *gormUserDao) FindByPhone(ctx context.Context, phone string) (User, error) {
 	var user User
 	err := dao.db.WithContext(ctx).Where("phone=?", phone).First(&user).Error
 	if err == gorm.ErrRecordNotFound {

@@ -21,12 +21,17 @@ var (
 	ErrVerificationCodeCheckRateLimited = errors.New("verification code check rate limited")
 )
 
-type CodeCache struct {
+type CodeCache interface {
+	Set(ctx context.Context, bizType, phone, verificationCode string) error
+	Verify(ctx context.Context, bizType, phone, verificationCode string) (bool, error)
+}
+
+type redisCodeCache struct {
 	redisClient redis.Cmdable
 }
 
-func NewCodeCache(cmd redis.Cmdable) *CodeCache {
-	return &CodeCache{
+func NewCodeCache(cmd redis.Cmdable) CodeCache {
+	return &redisCodeCache{
 		redisClient: cmd,
 	}
 }
@@ -34,7 +39,7 @@ func NewCodeCache(cmd redis.Cmdable) *CodeCache {
 // -2 → verification code exists but missing TTL (data exception)
 // -1 → send rate limited
 // >=0 → set successfully
-func (c *CodeCache) Set(ctx context.Context, bizType, phone, verificationCode string) error {
+func (c *redisCodeCache) Set(ctx context.Context, bizType, phone, verificationCode string) error {
 	key := c.buildKey(bizType, phone)
 	result, err := c.redisClient.Eval(
 		ctx,
@@ -63,7 +68,7 @@ func (c *CodeCache) Set(ctx context.Context, bizType, phone, verificationCode st
 // -2 → verification code does not exist or does not match
 // -1 → verification frequency limited
 // >=0 → verification passed
-func (c *CodeCache) Verify(ctx context.Context, bizType, phone, verificationCode string) (bool, error) {
+func (c *redisCodeCache) Verify(ctx context.Context, bizType, phone, verificationCode string) (bool, error) {
 	result, err := c.redisClient.Eval(
 		ctx,
 		luaVerifyCode,
@@ -85,6 +90,6 @@ func (c *CodeCache) Verify(ctx context.Context, bizType, phone, verificationCode
 	}
 }
 
-func (c *CodeCache) buildKey(bizType, phone string) string {
+func (c *redisCodeCache) buildKey(bizType, phone string) string {
 	return fmt.Sprintf("phone_code:%s:%s", bizType, phone)
 }

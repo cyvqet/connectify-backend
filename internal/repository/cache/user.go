@@ -14,22 +14,24 @@ import (
 
 var ErrKeyNotExist = redis.Nil
 
-// UserCache is the user cache
-type UserCache struct {
+type UserCache interface {
+	Get(ctx context.Context, id int64) (domain.User, error)
+	Set(ctx context.Context, user domain.User) error
+}
+
+type redisUserCache struct {
 	client redis.Cmdable
 	expire time.Duration
 }
 
-// NewUserCache creates a user cache instance
-func NewUserCache(client redis.Cmdable) *UserCache {
-	return &UserCache{
+func NewUserCache(client redis.Cmdable) UserCache {
+	return &redisUserCache{
 		client: client,
 		expire: time.Minute * 10,
 	}
 }
 
-// Get gets user information from the cache
-func (c *UserCache) Get(ctx context.Context, id int64) (domain.User, error) {
+func (c *redisUserCache) Get(ctx context.Context, id int64) (domain.User, error) {
 	key := c.key(id)
 	data, err := c.client.Get(ctx, key).Result()
 	if errors.Is(err, redis.Nil) {
@@ -47,8 +49,7 @@ func (c *UserCache) Get(ctx context.Context, id int64) (domain.User, error) {
 	return user, nil
 }
 
-// Set writes user information to the cache
-func (c *UserCache) Set(ctx context.Context, user domain.User) error {
+func (c *redisUserCache) Set(ctx context.Context, user domain.User) error {
 	data, err := json.Marshal(user)
 	if err != nil {
 		return err
@@ -56,7 +57,6 @@ func (c *UserCache) Set(ctx context.Context, user domain.User) error {
 	return c.client.Set(ctx, c.key(user.Id), data, c.expire).Err()
 }
 
-// key generates the Redis key for the user cache
-func (c *UserCache) key(id int64) string {
+func (c *redisUserCache) key(id int64) string {
 	return fmt.Sprintf("user:info:%d", id)
 }

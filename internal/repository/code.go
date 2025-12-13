@@ -11,22 +11,25 @@ var (
 	ErrVerificationCodeCheckRateLimited = cache.ErrVerificationCodeCheckRateLimited
 )
 
-type CodeRepository struct {
-	cache *cache.CodeCache
+type CodeRepository interface {
+	Set(ctx context.Context, bizType, phone, verificationCode string) error
+	Verify(ctx context.Context, bizType, phone, verificationCode string) (bool, error)
 }
 
-func NewCodeRepository(codeCache *cache.CodeCache) *CodeRepository {
-	return &CodeRepository{
+type codeRepository struct {
+	cache cache.CodeCache
+}
+
+func NewCodeRepository(codeCache cache.CodeCache) CodeRepository {
+	return &codeRepository{
 		cache: codeCache,
 	}
 }
 
-// Set saves the verification code for the specified business type and phone number.
-func (r *CodeRepository) Set(ctx context.Context, bizType, phone, verificationCode string) error {
+func (r *codeRepository) Set(ctx context.Context, bizType, phone, verificationCode string) error {
 	return r.cache.Set(ctx, bizType, phone, verificationCode)
 }
 
-// Verify verifies the verification code is correct
-func (r *CodeRepository) Verify(ctx context.Context, bizType, phone, verificationCode string) (bool, error) {
+func (r *codeRepository) Verify(ctx context.Context, bizType, phone, verificationCode string) (bool, error) {
 	return r.cache.Verify(ctx, bizType, phone, verificationCode)
 }
