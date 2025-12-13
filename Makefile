@@ -176,8 +176,11 @@ k8s:
 	@echo ""
 	@$(WARN) "Stopping local development environment first..."
 	@cd deploy/docker && docker-compose down 2>/dev/null || true
-	@$(WARN) "Killing any process on port 8080..."
-	@lsof -ti :8080 | xargs kill -9 2>/dev/null || true
+	@$(WARN) "Killing non-Docker processes on conflicting ports..."
+	@lsof -i :8080 2>/dev/null | grep -v 'com.docke' | awk 'NR>1 {print $$2}' | xargs kill -9 2>/dev/null || true
+	@lsof -i :6379 2>/dev/null | grep -v 'com.docke' | awk 'NR>1 {print $$2}' | xargs kill -9 2>/dev/null || true
+	@lsof -i :13316 2>/dev/null | grep -v 'com.docke' | awk 'NR>1 {print $$2}' | xargs kill -9 2>/dev/null || true
+	@sleep 2
 	@$(MAKE) docker docker-clean mysql-deploy redis-deploy docker-deploy ingress-deploy
 	@echo ""
 	@echo "$(GREEN)==========================================$(RESET)"
@@ -221,12 +224,18 @@ dev-up:
 	@echo "$(YELLOW)  Switching to Local Dev Environment$(RESET)"
 	@echo "$(YELLOW)==========================================$(RESET)"
 	@echo ""
-	@$(WARN) "Stopping Kubernetes services first (if running)..."
+	@$(WARN) "Stopping ALL Kubernetes services first (if running)..."
 	@kubectl delete service connectify-record 2>/dev/null || true
 	@kubectl delete deployment connectify-record-service 2>/dev/null || true
 	@kubectl delete ingress connectify-record-ingress 2>/dev/null || true
-	@$(WARN) "Killing any process on port 8080..."
-	@lsof -ti :8080 | xargs kill -9 2>/dev/null || true
+	@kubectl delete service connectify-record-mysql 2>/dev/null || true
+	@kubectl delete deployment connectify-record-mysql 2>/dev/null || true
+	@kubectl delete service connectify-record-redis 2>/dev/null || true
+	@kubectl delete deployment connectify-record-redis 2>/dev/null || true
+	@$(WARN) "Killing non-Docker processes on conflicting ports (8080, 6379)..."
+	@lsof -i :8080 2>/dev/null | grep -v 'com.docke' | awk 'NR>1 {print $$2}' | xargs kill -9 2>/dev/null || true
+	@lsof -i :6379 2>/dev/null | grep -v 'com.docke' | awk 'NR>1 {print $$2}' | xargs kill -9 2>/dev/null || true
+	@sleep 2
 	@$(INFO) "Starting local development dependencies..."
 	@cd deploy/docker && docker-compose up -d
 	@$(INFO) "Waiting for MySQL to be ready..."
