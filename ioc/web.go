@@ -6,6 +6,7 @@ import (
 	"connectify/internal/web"
 	"connectify/internal/web/middleware"
 	"connectify/pkg/middleware/ratelimit"
+	limiter "connectify/pkg/ratelimit"
 
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
@@ -50,7 +51,7 @@ func InitGinMiddlewares(redisClient redis.Cmdable) []gin.HandlerFunc {
 		}),
 
 		// Rate limiting: allow up to 100 requests per minute
-		ratelimit.NewBuilder(redisClient, time.Minute, 100).Build(),
+		ratelimit.NewBuilder(limiter.NewRedisSlideWindowLimiter(redisClient, time.Minute, 100)).Build(),
 
 		// JWT login middleware
 		// Ignore authentication for the following paths
