@@ -43,3 +43,13 @@ func InitSmsFailoverService(redisClient redis.Cmdable) sms.Service {
 		},
 	)
 }
+
+// This function wraps multiple SMS providers with a timeout-based failover strategy.
+func InitSmsFailoverTimeoutService(redisClient redis.Cmdable) sms.Service {
+	return failover.NewTimeoutService(
+		[]sms.Service{
+			tencent.NewService("appId", "signName"),
+			aliyun.NewService("appId", "signName"),
+		},
+	)
+}
