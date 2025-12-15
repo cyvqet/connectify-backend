@@ -29,7 +29,7 @@ func InitWebServer() *gin.Engine {
 		repository.NewCodeRepository,
 
 		// Service part
-		ioc.InitSMSService,
+		ioc.InitSmsService,
 		service.NewUserService,
 		service.NewCodeService,
 

@@ -13,7 +13,6 @@ import (
 	"connectify/internal/service"
 	"connectify/internal/web"
 	"connectify/ioc"
-
 	"github.com/gin-gonic/gin"
 )
 
