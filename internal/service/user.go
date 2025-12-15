@@ -6,8 +6,8 @@ import (
 	"context"
 	"errors"
 
-	"connectify/internal/domain"
-	"connectify/internal/repository"
+	"github.com/cyvqet/connectify/internal/domain"
+	"github.com/cyvqet/connectify/internal/repository"
 
 	"golang.org/x/crypto/bcrypt"
 )

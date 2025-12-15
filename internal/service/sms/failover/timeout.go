@@ -1,10 +1,11 @@
 package failover
 
 import (
-	"connectify/internal/service/sms"
 	"context"
 	"errors"
 	"sync/atomic"
+
+	"github.com/cyvqet/connectify/internal/service/sms"
 )
 
 type TimeoutService struct {

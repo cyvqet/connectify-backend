@@ -7,7 +7,7 @@ import (
 	"fmt"
 	"time"
 
-	"connectify/internal/domain"
+	"github.com/cyvqet/connectify/internal/domain"
 
 	"github.com/redis/go-redis/v9"
 )

@@ -8,9 +8,9 @@ import (
 	"testing"
 	"time"
 
-	"connectify/internal/domain"
-	"connectify/internal/service"
-	svcmocks "connectify/internal/service/mocks"
+	"github.com/cyvqet/connectify/internal/domain"
+	"github.com/cyvqet/connectify/internal/service"
+	svcmocks "github.com/cyvqet/connectify/internal/service/mocks"
 
 	"github.com/gin-gonic/gin"
 	"github.com/golang-jwt/jwt/v5"

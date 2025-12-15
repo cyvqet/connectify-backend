@@ -3,7 +3,7 @@ package repository
 import (
 	"context"
 
-	"connectify/internal/repository/cache"
+	"github.com/cyvqet/connectify/internal/repository/cache"
 )
 
 var (

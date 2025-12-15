@@ -1,7 +1,7 @@
 package ioc
 
 import (
-	"connectify/config"
+	"github.com/cyvqet/connectify/config"
 
 	"github.com/redis/go-redis/v9"
 )

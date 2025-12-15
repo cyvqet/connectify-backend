@@ -5,7 +5,7 @@ import (
 	"errors"
 	"sync/atomic"
 
-	"connectify/internal/service/sms"
+	"github.com/cyvqet/connectify/internal/service/sms"
 )
 
 type Service struct {

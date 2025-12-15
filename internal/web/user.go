@@ -6,9 +6,9 @@ import (
 	"net/http"
 	"time"
 
-	"connectify/internal/domain"
-	"connectify/internal/repository/cache"
-	"connectify/internal/service"
+	"github.com/cyvqet/connectify/internal/domain"
+	"github.com/cyvqet/connectify/internal/repository/cache"
+	"github.com/cyvqet/connectify/internal/service"
 
 	"github.com/dlclark/regexp2"
 	"github.com/gin-contrib/sessions"

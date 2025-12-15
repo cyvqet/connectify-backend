@@ -10,9 +10,10 @@
 package svcmocks
 
 import (
-	domain "connectify/internal/domain"
 	context "context"
 	reflect "reflect"
+
+	domain "github.com/cyvqet/connectify/internal/domain"
 
 	gomock "go.uber.org/mock/gomock"
 )

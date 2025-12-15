@@ -1,4 +1,4 @@
-module connectify
+module github.com/cyvqet/connectify
 
 go 1.24.6
 

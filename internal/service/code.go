@@ -8,9 +8,9 @@ import (
 	"fmt"
 	"math/big"
 
-	"connectify/internal/repository"
-	"connectify/internal/repository/cache"
-	"connectify/internal/service/sms"
+	"github.com/cyvqet/connectify/internal/repository"
+	"github.com/cyvqet/connectify/internal/repository/cache"
+	"github.com/cyvqet/connectify/internal/service/sms"
 )
 
 type CodeService interface {

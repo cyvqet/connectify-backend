@@ -6,9 +6,9 @@ import (
 	"fmt"
 	"log"
 
-	"connectify/internal/domain"
-	"connectify/internal/repository/cache"
-	"connectify/internal/repository/dao"
+	"github.com/cyvqet/connectify/internal/domain"
+	"github.com/cyvqet/connectify/internal/repository/cache"
+	"github.com/cyvqet/connectify/internal/repository/dao"
 )
 
 var (

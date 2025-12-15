@@ -1,13 +1,14 @@
 package ioc
 
 import (
-	"connectify/internal/service/sms"
-	"connectify/internal/service/sms/aliyun"
-	"connectify/internal/service/sms/failover"
-	"connectify/internal/service/sms/ratelimit"
-	"connectify/internal/service/sms/tencent"
-	limiter "connectify/pkg/ratelimit"
 	"time"
+
+	"github.com/cyvqet/connectify/internal/service/sms"
+	"github.com/cyvqet/connectify/internal/service/sms/aliyun"
+	"github.com/cyvqet/connectify/internal/service/sms/failover"
+	"github.com/cyvqet/connectify/internal/service/sms/ratelimit"
+	"github.com/cyvqet/connectify/internal/service/sms/tencent"
+	limiter "github.com/cyvqet/connectify/pkg/ratelimit"
 
 	"github.com/redis/go-redis/v9"
 )

@@ -1,11 +1,12 @@
 package ratelimit
 
 import (
-	"connectify/pkg/ratelimit"
 	_ "embed"
 	"fmt"
 	"log"
 	"net/http"
+
+	"github.com/cyvqet/connectify/pkg/ratelimit"
 
 	"github.com/gin-gonic/gin"
 )

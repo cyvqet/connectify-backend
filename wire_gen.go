@@ -7,12 +7,12 @@
 package main
 
 import (
-	"connectify/internal/repository"
-	"connectify/internal/repository/cache"
-	"connectify/internal/repository/dao"
-	"connectify/internal/service"
-	"connectify/internal/web"
-	"connectify/ioc"
+	"github.com/cyvqet/connectify/internal/repository"
+	"github.com/cyvqet/connectify/internal/repository/cache"
+	"github.com/cyvqet/connectify/internal/repository/dao"
+	"github.com/cyvqet/connectify/internal/service"
+	"github.com/cyvqet/connectify/internal/web"
+	"github.com/cyvqet/connectify/ioc"
 	"github.com/gin-gonic/gin"
 )
 

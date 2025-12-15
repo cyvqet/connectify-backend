@@ -1,10 +1,11 @@
 package ratelimit
 
 import (
-	"connectify/internal/service/sms"
-	"connectify/pkg/ratelimit"
 	"context"
 	"errors"
+
+	"github.com/cyvqet/connectify/internal/service/sms"
+	"github.com/cyvqet/connectify/pkg/ratelimit"
 )
 
 type Service struct {

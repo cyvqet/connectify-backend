@@ -3,10 +3,10 @@ package ioc
 import (
 	"time"
 
-	"connectify/internal/web"
-	"connectify/internal/web/middleware"
-	"connectify/pkg/middleware/ratelimit"
-	limiter "connectify/pkg/ratelimit"
+	"github.com/cyvqet/connectify/internal/web"
+	"github.com/cyvqet/connectify/internal/web/middleware"
+	"github.com/cyvqet/connectify/pkg/middleware/ratelimit"
+	limiter "github.com/cyvqet/connectify/pkg/ratelimit"
 
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"

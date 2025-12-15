@@ -1,8 +1,8 @@
 package ioc
 
 import (
-	"connectify/config"
-	"connectify/internal/repository/dao"
+	"github.com/cyvqet/connectify/config"
+	"github.com/cyvqet/connectify/internal/repository/dao"
 
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
