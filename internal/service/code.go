@@ -19,14 +19,14 @@ type CodeService interface {
 }
 
 type codeService struct {
-	repo repository.CodeRepository
-	sms  sms.Service
+	repo   repository.CodeRepository
+	smsSvc sms.Service
 }
 
-func NewCodeService(repo repository.CodeRepository, smsService sms.Service) CodeService {
+func NewCodeService(repo repository.CodeRepository, smsSvc sms.Service) CodeService {
 	return &codeService{
-		repo: repo,
-		sms:  smsService,
+		repo:   repo,
+		smsSvc: smsSvc,
 	}
 }
 
@@ -41,7 +41,7 @@ func (svc *codeService) Send(ctx context.Context, bizType, phone string) (string
 		return "", fmt.Errorf("set verification code failed: %w", err)
 	}
 
-	if err := svc.sms.Send(ctx, smsTemplateID, []string{verificationCode}, phone); err != nil {
+	if err := svc.smsSvc.Send(ctx, smsTemplateID, []string{verificationCode}, phone); err != nil {
 		return "", fmt.Errorf("send sms failed: %w", err)
 	}
 
