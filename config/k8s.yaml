@@ -1,0 +1,5 @@
+db.mysql:
+  dsn: root:root@tcp(connectify-record-mysql:3308)/connectify
+
+redis:
+  addr: connectify-record-redis:6379

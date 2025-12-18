@@ -17,6 +17,9 @@ spec:
           image: cyvqet/connectify:v1.0  # Container image
           ports:            
             - containerPort: 8080    # Container listening port
+          env:                        # Environment variables
+            - name: ENV              # Environment type
+              value: "k8s"           # Use k8s environment
           resources:
             requests:            # Container startup resources
               memory: "256Mi"    # Minimum memory: 256Mi
